@@ -1,0 +1,5 @@
+/storage/
+*.log
+.env
+.env.*
+krp-lostfound-*.zip
