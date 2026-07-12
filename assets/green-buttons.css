@@ -1,0 +1,19 @@
+:root{--app-green:#f4772e;--app-green-dark:#d95f18;--app-green-soft:#fff0e6}
+button,.button,.primary,.save-button,.login-submit,.save-profile,.upload-button,.edit-button,.new-button,.tool-button,.action-button,.edit-action,.delete-action,.folder-action,.home-link{background:var(--app-green)!important;border-color:var(--app-green)!important;color:#fff!important}
+button:hover,.button:hover,.primary:hover,.save-button:hover,.login-submit:hover,.save-profile:hover,.upload-button:hover,.edit-button:hover,.new-button:hover,.tool-button:hover,.action-button:hover,.edit-action:hover,.delete-action:hover,.folder-action:hover,.home-link:hover{background:var(--app-green-dark)!important;border-color:var(--app-green-dark)!important;color:#fff!important}
+.app-header .main-nav a.active,.app-header .main-nav a:hover,.profile-tabs a.active{background:linear-gradient(135deg,#ff9a5d,var(--app-green))!important;box-shadow:0 4px 12px rgba(244,119,46,.3)!important;color:#fff!important}
+.account-dropdown .dropdown-logout,.account-dropdown .dropdown-logout:hover{background:var(--app-green)!important;color:#fff!important}
+.reset-button,.profile-actions a,.secondary{background:var(--app-green-soft)!important;border-color:#ffd1b5!important;color:#a8430a!important}
+.reset-button:hover,.profile-actions a:hover,.secondary:hover{background:#ffe2cf!important;color:#873607!important}
+.header-tools button,.account-toggle,.row-toggle,.password-toggle{background:transparent!important;border-color:transparent!important;color:#5d596c!important}
+.header-tools button:hover,.account-toggle:hover,.row-toggle:hover,.password-toggle:hover{background:var(--app-green-soft)!important;color:var(--app-green-dark)!important}
+input:focus,select:focus,textarea:focus{border-color:var(--app-green)!important;box-shadow:0 0 0 3px rgba(244,119,46,.14)!important}
+.filters button[type="submit"]{background:var(--app-green)!important;border-color:var(--app-green)!important;color:#fff!important}
+.filters button[type="submit"]:hover{background:var(--app-green-dark)!important;border-color:var(--app-green-dark)!important}
+.item-actions{grid-template-columns:repeat(2,30px)!important;gap:4px!important}.item-actions .action-button{width:30px!important;height:27px!important;font-size:12px!important;line-height:1!important}.item-actions form{width:30px!important}
+.item-actions .folder-action{background:#f4772e!important;border-color:#f4772e!important;color:#fff!important}.item-actions .edit-action{background:#e46a22!important;border-color:#e46a22!important;color:#fff!important}.item-actions .delete-action{background:#bd4b0d!important;border-color:#bd4b0d!important;color:#fff!important}.item-actions .folder-action:hover,.item-actions .edit-action:hover,.item-actions .delete-action:hover{background:#a63e07!important}
+button.save-button,button.save-profile,.actions button.primary{display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;color:#111!important;font-weight:700!important}
+button.save-button:hover,button.save-profile:hover,.actions button.primary:hover{color:#111!important}
+.brand-back-link{display:flex!important;align-items:center;color:inherit!important;text-decoration:none!important;cursor:pointer}.brand-back-link:hover{text-decoration:none!important;opacity:.9}
+.entry-actions{display:flex!important;align-items:center!important;gap:10px!important}.entry-actions button{min-width:108px!important;padding:0 18px!important;white-space:nowrap!important}.entry-actions .save-button{min-width:90px!important}.entry-actions>a{margin-left:2px!important;white-space:nowrap!important}
+.entry-actions .new-button{display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important}

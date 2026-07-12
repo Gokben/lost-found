@@ -2,7 +2,7 @@
   min-height: 100vh;
   background:
     linear-gradient(rgba(4, 12, 24, .36), rgba(4, 12, 24, .52)),
-    url('sofitel-login.jpg') center center / cover no-repeat fixed;
+    url('sofitel-login.jpg') center center / cover no-repeat fixed !important;
 }
 
 .login-card {
@@ -35,7 +35,7 @@
 .password-toggle.is-visible .eye-icon::before { content: ''; position: absolute; z-index: 2; width: 24px; height: 2px; left: -5px; top: 3px; background: #718096; transform: rotate(-90deg); box-shadow: 0 0 0 2px #f8fafc; }
 .remember { display: flex; align-items: center; gap: 9px; font-weight: 500 !important; }
 .remember input { width: 18px; height: 18px; margin: 0; accent-color: #a7830b; }
-.login-submit { height: 46px; border-radius: 7px; background: #f4772e; color: white; font-size: 14px; transition: background .2s, transform .2s; }
+.login-submit { height: 46px; border-radius: 7px; background: #f4772e; color: #111; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; text-align: center; transition: background .2s, transform .2s; }
 .login-submit:hover { background: #dc601c; }
 .login-submit:active { transform: translateY(1px); }
 .secure-note { display: block; margin-top: 24px; text-align: center; color: #8b929e; }
