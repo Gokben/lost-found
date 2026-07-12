@@ -3,3 +3,4 @@
 .env
 .env.*
 krp-lostfound-*.zip
+config.php

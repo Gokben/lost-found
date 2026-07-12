@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=$HOME/public_html/lf/
+    - /bin/mkdir -p $DEPLOYPATH
+    - /usr/bin/rsync -a --exclude='.git/' --exclude='.cpanel.yml' --exclude='.gitignore' --exclude='config.php' --exclude='config.example.php' --exclude='database*.sql' --exclude='local-init.php' --exclude='password.php' --exclude='serve-local.cmd' --exclude='README-PHP.md' --exclude='CPANEL-DEPLOY.md' --exclude='item-definitions.json' ./ $DEPLOYPATH
