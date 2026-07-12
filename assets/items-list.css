@@ -1,0 +1,1 @@
+.item-actions{display:flex;gap:6px;align-items:center}.item-actions form{margin:0}.edit-action,.delete-action{display:inline-block;border:0;border-radius:6px;padding:7px 9px;font-size:12px;font-weight:700}.edit-action{background:#edf5ff;color:#1677ff}.delete-action{background:#fff0f0;color:#b42318}.item-actions a:hover,.item-actions button:hover{filter:brightness(.95)}
