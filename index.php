@@ -33,11 +33,11 @@ $profileStmt=db()->prepare('SELECT setting_value FROM settings WHERE setting_key
 <link rel="stylesheet" href="<?=url('assets/amerce/fonts/fonts.css')?>"><link rel="stylesheet" href="<?=url('assets/amerce/icon/icomoon/style.css')?>">
 <link rel="stylesheet" href="<?=url('assets/amerce/css/bootstrap.min.css')?>"><link rel="stylesheet" href="<?=url('assets/amerce/css/styles.css')?>">
 <link rel="stylesheet" href="<?=url('assets/amerce-lf.css')?>"><link rel="stylesheet" href="<?=url('assets/vuexy-inspired.css')?>"><link rel="stylesheet" href="<?=url('assets/dashboard-header.css')?>">
-<link rel="stylesheet" href="<?=url('assets/green-buttons.css')?>"><script src="<?=url('assets/theme.js')?>"></script></head>
+<link rel="stylesheet" href="<?=url('assets/green-buttons.css?v=20260712-2')?>"><script src="<?=url('assets/theme.js?v=20260712-2')?>"></script></head>
 <body>
 <header class="app-header">
   <div class="header-top">
-    <a class="brand brand-back-link" href="<?=url('index.php')?>" title="Ana sayfa"><img class="brand-logo" src="<?=url('assets/kirpisoftware-icon-transparent.png')?>" alt="Kirpisoft"><span><b>Lost &amp; Found</b></span></a>
+    <a class="brand brand-back-link" href="<?=url('index.php')?>" title="Ana sayfa"><img class="brand-logo" style="display:block!important;width:38px!important;height:38px!important;object-fit:contain!important" src="<?=url('assets/kirpisoftware-logo-transparent-v2.png')?>" alt="Kirpisoft"><span><b>Lost &amp; Found</b></span></a>
     <div class="header-tools">
       <button type="button" title="Arama" aria-label="Arama">⌕</button><button type="button" title="Dil">TR</button><button id="theme-toggle" type="button" title="Gece görünümüne geç" aria-label="Görünümü değiştir"><span class="theme-icon">☼</span></button>
       <div class="account-menu"><button id="account-toggle" class="account-toggle" type="button" aria-expanded="false"><span class="user-avatar"><?php if($avatar):?><img src="<?=url($avatar)?>" alt="Profil"><?php else:?><?=e(mb_strtoupper(mb_substr($_SESSION['user']['name'],0,1)))?><?php endif?></span><span class="user-name"><?=e($_SESSION['user']['name'])?><small><?=e($_SESSION['user']['role'])?></small></span><span class="account-chevron">⌄</span></button>
