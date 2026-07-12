@@ -33,7 +33,7 @@ $profileStmt=db()->prepare('SELECT setting_value FROM settings WHERE setting_key
 <link rel="stylesheet" href="<?=url('assets/amerce/fonts/fonts.css')?>"><link rel="stylesheet" href="<?=url('assets/amerce/icon/icomoon/style.css')?>">
 <link rel="stylesheet" href="<?=url('assets/amerce/css/bootstrap.min.css')?>"><link rel="stylesheet" href="<?=url('assets/amerce/css/styles.css')?>">
 <link rel="stylesheet" href="<?=url('assets/amerce-lf.css')?>"><link rel="stylesheet" href="<?=url('assets/vuexy-inspired.css')?>"><link rel="stylesheet" href="<?=url('assets/dashboard-header.css')?>">
-<link rel="stylesheet" href="<?=url('assets/green-buttons.css')?>"></head>
+<link rel="stylesheet" href="<?=url('assets/green-buttons.css')?>"><script src="<?=url('assets/theme.js')?>"></script></head>
 <body>
 <header class="app-header">
   <div class="header-top">
