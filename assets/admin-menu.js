@@ -26,11 +26,10 @@ settingsNavToggle.addEventListener('click', event => {
 });
 
 settingsNavMenu.addEventListener('mouseenter', () => {
-  if (window.matchMedia('(min-width: 992px)').matches) openSettingsMenu();
+  openSettingsMenu();
 });
 
 settingsNavMenu.addEventListener('mouseleave', () => {
-  if (!window.matchMedia('(min-width: 992px)').matches) return;
   settingsCloseTimer = setTimeout(closeSettingsMenu, 120);
 });
 

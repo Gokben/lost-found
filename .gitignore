@@ -1,4 +1,5 @@
 /storage/
+/tmp/
 *.log
 .env
 .env.*

@@ -9,7 +9,7 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS settings (setting_key TEXT PRIMARY KEY, s
 $pdo->exec("CREATE TABLE IF NOT EXISTS location_definitions (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE, active INTEGER NOT NULL DEFAULT 1, sort_order INTEGER NOT NULL DEFAULT 0)");
 $pdo->exec("CREATE TABLE IF NOT EXISTS department_definitions (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE, active INTEGER NOT NULL DEFAULT 1, sort_order INTEGER NOT NULL DEFAULT 0)");
 $pdo->exec("CREATE TABLE IF NOT EXISTS storage_definitions (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE, active INTEGER NOT NULL DEFAULT 1, sort_order INTEGER NOT NULL DEFAULT 0)");
-$pdo->exec("CREATE TABLE IF NOT EXISTS category_definitions (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL COLLATE NOCASE UNIQUE, active INTEGER NOT NULL DEFAULT 1, sort_order INTEGER NOT NULL DEFAULT 0)");
+$pdo->exec("CREATE TABLE IF NOT EXISTS category_definitions (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL COLLATE NOCASE UNIQUE, active INTEGER NOT NULL DEFAULT 1, sort_order INTEGER NOT NULL DEFAULT 0, retention_days INTEGER NOT NULL DEFAULT 90)");
 $pdo->exec("CREATE TABLE IF NOT EXISTS item_definitions (id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT NOT NULL, name TEXT NOT NULL, active INTEGER NOT NULL DEFAULT 1, sort_order INTEGER NOT NULL DEFAULT 0, UNIQUE(category,name))");
 $locations=['Lobby','Oven Restoran','Kış Bahçesi','Lobby WC','Teras','Spa alanları','Kat Ofisleri','Teras Havuz','Toplantı Salonları','Mescit','La Table','Club Millésime'];
 $locationStmt=$pdo->prepare('INSERT OR IGNORE INTO location_definitions (name,sort_order) VALUES (?,?)');
@@ -30,6 +30,9 @@ if(is_file($importFile)){
 }
 $itemDefinitionColumns=array_column($pdo->query('PRAGMA table_info(item_definitions)')->fetchAll(),'name');
 if(!in_array('category_id',$itemDefinitionColumns,true)) $pdo->exec('ALTER TABLE item_definitions ADD COLUMN category_id INTEGER DEFAULT NULL');
+$categoryColumns=array_column($pdo->query('PRAGMA table_info(category_definitions)')->fetchAll(),'name');
+if(!in_array('retention_days',$categoryColumns,true)) $pdo->exec('ALTER TABLE category_definitions ADD COLUMN retention_days INTEGER NOT NULL DEFAULT 90');
+$pdo->exec('UPDATE category_definitions SET retention_days=90 WHERE retention_days IS NULL OR retention_days<1');
 $itemColumns=array_column($pdo->query('PRAGMA table_info(items)')->fetchAll(),'name');
 if(!in_array('found_department',$itemColumns,true)) $pdo->exec("ALTER TABLE items ADD COLUMN found_department TEXT DEFAULT ''");
 if(!in_array('found_by',$itemColumns,true)) $pdo->exec("ALTER TABLE items ADD COLUMN found_by TEXT DEFAULT ''");
