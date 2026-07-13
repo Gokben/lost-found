@@ -15,7 +15,7 @@ if ($status !== '') {
     $sql .= ' AND status=?';
     $params[] = $status;
 }
-$sql .= ' ORDER BY CASE WHEN i.import_order IS NULL THEN 0 ELSE 1 END, i.import_order ASC, i.id DESC LIMIT 100';
+$sql .= " ORDER BY CASE WHEN i.found_at IS NULL OR i.found_at='' THEN 1 ELSE 0 END, i.found_at DESC, i.id DESC LIMIT 100";
 $stmt = db()->prepare($sql);
 $stmt->execute($params);
 $items = $stmt->fetchAll();
