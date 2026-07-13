@@ -1,7 +1,5 @@
 <?php
 require __DIR__.'/config.php';
-require_once __DIR__.'/schema-migrations.php';
-ensure_category_schema(db());
 require_login();
 
 $q = trim($_GET['q'] ?? '');

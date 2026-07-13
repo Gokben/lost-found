@@ -1,5 +1,5 @@
 <?php
-require __DIR__.'/config.php';require_once __DIR__.'/schema-migrations.php';ensure_category_schema(db());require_login();$error='';
+require __DIR__.'/config.php';require_login();$error='';
 $locations=db()->query('SELECT name FROM location_definitions WHERE active=1 ORDER BY sort_order,name')->fetchAll();
 $departments=db()->query('SELECT name FROM department_definitions WHERE active=1 ORDER BY sort_order,name')->fetchAll();
 $storages=db()->query('SELECT name FROM storage_definitions WHERE active=1 ORDER BY sort_order,name')->fetchAll();
