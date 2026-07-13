@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'/config.php'; require_admin(); $message='';$error='';
+require_once __DIR__.'/config.php'; require_once __DIR__.'/schema-migrations.php'; ensure_category_schema(db()); require_admin(); $message='';$error='';
 if($_SERVER['REQUEST_METHOD']==='POST'){
  verify_csrf();$action=$_POST['action']??'';
  if($action==='settings'){
