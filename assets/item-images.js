@@ -1,5 +1,8 @@
 (() => {
   'use strict';
+  const layout = document.createElement('style');
+  layout.textContent = '.entry-grid .add-related-item{grid-column:3 / 4!important;align-self:end!important;min-height:105px!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:12px!important;background:#fffaf5!important;border:1px dashed #f97316!important;border-radius:9px!important}.entry-grid .add-related-item .new-button{width:100%!important;max-width:190px!important;min-height:48px!important;margin:0!important;border-radius:8px!important;font-size:17px!important;font-weight:700!important}@media(max-width:1200px){.entry-grid .add-related-item{grid-column:auto!important}}';
+  document.head.append(layout);
   document.querySelectorAll('.item-image-tile > input[type=checkbox]').forEach(input => input.hidden = true);
   document.addEventListener('click', event => {
     if (event.target.closest('.item-image-remove')) { event.preventDefault(); event.stopPropagation(); }
