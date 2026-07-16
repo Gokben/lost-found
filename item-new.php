@@ -1,6 +1,7 @@
 <?php
 require __DIR__.'/config.php';if(!function_exists('date_display')){function date_display(?string $value):string{$value=trim((string)$value);if($value==='')return '';try{return(new DateTimeImmutable($value,new DateTimeZone('Europe/Istanbul')))->format('d.m.Y');}catch(Throwable){return '';}}function date_input_to_storage(?string $value):?string{$value=trim((string)$value);if($value==='')return null;foreach(['!d.m.Y','!Y-m-d','!Y-m-d\TH:i'] as $format){$date=DateTimeImmutable::createFromFormat($format,$value,new DateTimeZone('Europe/Istanbul'));$errors=DateTimeImmutable::getLastErrors();if($date&&($errors===false||($errors['warning_count']===0&&$errors['error_count']===0)))return $date->format('Y-m-d');}return null;}}require_login();$error='';
 $locations=db()->query('SELECT name FROM location_definitions WHERE active=1 ORDER BY sort_order,name')->fetchAll();
+if(!in_array('Oda',$locations,true))$locations[]='Oda';
 $roomNumbers=db()->query('SELECT room_number FROM room_definitions WHERE active=1 ORDER BY CAST(room_number AS INTEGER)')->fetchAll(PDO::FETCH_COLUMN);
 $departments=db()->query('SELECT name FROM department_definitions WHERE active=1 ORDER BY sort_order,name')->fetchAll();
 $storages=db()->query('SELECT name FROM storage_definitions WHERE active=1 ORDER BY sort_order,name')->fetchAll();

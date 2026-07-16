@@ -12,7 +12,7 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS storage_definitions (id INTEGER PRIMARY K
 $pdo->exec("CREATE TABLE IF NOT EXISTS category_definitions (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL COLLATE NOCASE UNIQUE, active INTEGER NOT NULL DEFAULT 1, sort_order INTEGER NOT NULL DEFAULT 0, retention_days INTEGER NOT NULL DEFAULT 90)");
 $pdo->exec("CREATE TABLE IF NOT EXISTS item_definitions (id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT NOT NULL, name TEXT NOT NULL, active INTEGER NOT NULL DEFAULT 1, sort_order INTEGER NOT NULL DEFAULT 0, UNIQUE(category,name))");
 $pdo->exec("CREATE TABLE IF NOT EXISTS room_definitions (id INTEGER PRIMARY KEY AUTOINCREMENT, room_number TEXT NOT NULL UNIQUE, active INTEGER NOT NULL DEFAULT 1, created_at TEXT DEFAULT CURRENT_TIMESTAMP)");
-$locations=['Lobby','Oven Restoran','Kış Bahçesi','Lobby WC','Teras','Spa alanları','Kat Ofisleri','Teras Havuz','Toplantı Salonları','Mescit','La Table','Club Millésime'];
+$locations=['Lobby','Oven Restoran','Kış Bahçesi','Lobby WC','Teras','Spa alanları','Kat Ofisleri','Teras Havuz','Toplantı Salonları','Mescit','La Table','Club Millésime','Oda'];
 $locationStmt=$pdo->prepare('INSERT OR IGNORE INTO location_definitions (name,sort_order) VALUES (?,?)');
 foreach($locations as $index=>$location) $locationStmt->execute([$location,$index+1]);
 $departments=['Front Office','F&B','Güvenlik','Housekeeping','Diğer'];
