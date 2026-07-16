@@ -46,6 +46,7 @@ if(!in_array('delivered_by',$itemColumns,true)) $pdo->exec("ALTER TABLE items AD
 if(!in_array('delivery_form_no',$itemColumns,true)) $pdo->exec("ALTER TABLE items ADD COLUMN delivery_form_no TEXT DEFAULT ''");
 if(!in_array('import_order',$itemColumns,true)) $pdo->exec("ALTER TABLE items ADD COLUMN import_order INTEGER DEFAULT NULL");
 if(!in_array('category_id',$itemColumns,true)) $pdo->exec('ALTER TABLE items ADD COLUMN category_id INTEGER DEFAULT NULL');
+if(!in_array('parent_item_id',$itemColumns,true)) $pdo->exec('ALTER TABLE items ADD COLUMN parent_item_id INTEGER DEFAULT NULL');
 $categoryStmt=$pdo->prepare('INSERT OR IGNORE INTO category_definitions (name,sort_order) VALUES (?,?)');
 $categoryNames=$pdo->query("SELECT category AS name FROM items WHERE TRIM(category)<>'' UNION SELECT category AS name FROM item_definitions WHERE TRIM(category)<>'' ORDER BY name")->fetchAll(PDO::FETCH_COLUMN);
 foreach($categoryNames as $index=>$categoryName) $categoryStmt->execute([$categoryName,$index+1]);
