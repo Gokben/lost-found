@@ -1,6 +1,26 @@
 <?php
 require __DIR__ . '/config.php';
 require __DIR__ . '/item-images.php';
+if (!function_exists('date_display')) {
+    function date_display(?string $value): string {
+        $value = trim((string)$value);
+        if ($value === '') return '';
+        try { return (new DateTimeImmutable($value, new DateTimeZone('Europe/Istanbul')))->format('d.m.Y'); }
+        catch (Throwable) { return ''; }
+    }
+}
+if (!function_exists('date_input_to_storage')) {
+    function date_input_to_storage(?string $value): ?string {
+        $value = trim((string)$value);
+        if ($value === '') return null;
+        foreach (['!d.m.Y','!Y-m-d','!Y-m-d\TH:i'] as $format) {
+            $date = DateTimeImmutable::createFromFormat($format, $value, new DateTimeZone('Europe/Istanbul'));
+            $errors = DateTimeImmutable::getLastErrors();
+            if ($date && ($errors === false || ($errors['warning_count'] === 0 && $errors['error_count'] === 0))) return $date->format('Y-m-d');
+        }
+        return null;
+    }
+}
 require_login();
 
 $id = (int)($_GET['id'] ?? $_POST['id'] ?? 0);
