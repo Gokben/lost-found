@@ -11,6 +11,7 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS department_definitions (id INTEGER PRIMAR
 $pdo->exec("CREATE TABLE IF NOT EXISTS storage_definitions (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE, active INTEGER NOT NULL DEFAULT 1, sort_order INTEGER NOT NULL DEFAULT 0)");
 $pdo->exec("CREATE TABLE IF NOT EXISTS category_definitions (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL COLLATE NOCASE UNIQUE, active INTEGER NOT NULL DEFAULT 1, sort_order INTEGER NOT NULL DEFAULT 0, retention_days INTEGER NOT NULL DEFAULT 90)");
 $pdo->exec("CREATE TABLE IF NOT EXISTS item_definitions (id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT NOT NULL, name TEXT NOT NULL, active INTEGER NOT NULL DEFAULT 1, sort_order INTEGER NOT NULL DEFAULT 0, UNIQUE(category,name))");
+$pdo->exec("CREATE TABLE IF NOT EXISTS room_definitions (id INTEGER PRIMARY KEY AUTOINCREMENT, room_number TEXT NOT NULL UNIQUE, active INTEGER NOT NULL DEFAULT 1, created_at TEXT DEFAULT CURRENT_TIMESTAMP)");
 $locations=['Lobby','Oven Restoran','Kış Bahçesi','Lobby WC','Teras','Spa alanları','Kat Ofisleri','Teras Havuz','Toplantı Salonları','Mescit','La Table','Club Millésime'];
 $locationStmt=$pdo->prepare('INSERT OR IGNORE INTO location_definitions (name,sort_order) VALUES (?,?)');
 foreach($locations as $index=>$location) $locationStmt->execute([$location,$index+1]);
@@ -50,6 +51,12 @@ $categoryNames=$pdo->query("SELECT category AS name FROM items WHERE TRIM(catego
 foreach($categoryNames as $index=>$categoryName) $categoryStmt->execute([$categoryName,$index+1]);
 $pdo->exec("UPDATE items SET category_id=(SELECT id FROM category_definitions WHERE name=items.category COLLATE NOCASE) WHERE category_id IS NULL AND TRIM(category)<>''");
 $pdo->exec("UPDATE item_definitions SET category_id=(SELECT id FROM category_definitions WHERE name=item_definitions.category COLLATE NOCASE) WHERE category_id IS NULL AND TRIM(category)<>''");
+$pdo->exec("INSERT OR IGNORE INTO room_definitions (room_number) SELECT DISTINCT location FROM items WHERE location GLOB '[0-9][0-9][0-9]' OR location GLOB '[0-9][0-9][0-9][0-9]'");
+$roomStmt=$pdo->prepare('INSERT OR IGNORE INTO room_definitions (room_number) VALUES (?)');
+$roomRanges=[[701,720],[801,820],[901,920],[1001,1003],[1101,1115],[1201,1215],[1301,1315],[1401,1415],[1501,1518],[1601,1620],[1701,1721],[1801,1821]];
+foreach($roomRanges as [$start,$end]){
+ foreach(range($start,$end) as $roomNumber) $roomStmt->execute([(string)$roomNumber]);
+}
 $pdo->prepare('DELETE FROM users WHERE email = ?')->execute(['admin@krpsoft.com.tr']);
 $stmt = $pdo->prepare('INSERT INTO users (name,email,password_hash,role,active) VALUES (?,?,?,?,1) ON CONFLICT(email) DO UPDATE SET password_hash=excluded.password_hash, role=excluded.role, active=1');
 $stmt->execute(['Sofitel Yönetici','admin@sofitel.com',password_hash('112233', PASSWORD_DEFAULT),'Admin']);
