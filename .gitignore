@@ -1,4 +1,5 @@
 /storage/
+/assets/uploads/
 /tmp/
 *.log
 .env
