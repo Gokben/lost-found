@@ -99,3 +99,6 @@
   .login-page { padding: 16px !important; align-items: flex-start !important; }
   .login-card { width: 100% !important; padding: 24px 18px !important; }
 }
+
+/* user-edit.php gerçek navigasyon oluşturur; profile.css'in eski sahte menüsünü gizle. */
+body:has(.profile-container) header.user-edit-app-header::after { content: none !important; display: none !important; }

@@ -3,7 +3,7 @@
   const base=location.pathname.slice(0,location.pathname.lastIndexOf('/')+1);
   const responsive=document.createElement('link');
   responsive.rel='stylesheet';
-  responsive.href=base+'assets/responsive.css?v=20260717-2';
+  responsive.href=base+'assets/responsive.css?v=20260717-3';
   document.head.appendChild(responsive);
 })();
 
