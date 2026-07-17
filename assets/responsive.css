@@ -1,0 +1,98 @@
+/* Ortak mobil ve tablet düzeni. Masaüstü görünümünü değiştirmeden dar ekranları düzenler. */
+@media screen and (max-width: 1100px) {
+  body .container { padding-left: 18px !important; padding-right: 18px !important; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .filters { grid-template-columns: minmax(0, 1fr) minmax(180px, .55fr) auto !important; }
+  .entry-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .entry-grid .details-field { grid-column: span 2 !important; }
+  .item-images-field, .related-cards-field { grid-column: span 2 !important; }
+  .profile-container { padding-left: 24px !important; padding-right: 24px !important; }
+}
+
+@media screen and (max-width: 800px) {
+  html, body { max-width: 100%; overflow-x: hidden; }
+  body { font-size: 15px; }
+  body .container, .entry-container, .admin-container { padding-left: 14px !important; padding-right: 14px !important; }
+
+  /* Ortak iki satırlı başlık: ikinci satır dokunarak kaydırılabilir. */
+  .app-header { height: auto !important; min-height: 100px; padding: 0 14px !important; position: relative !important; }
+  .header-top { height: 52px !important; min-width: 0; }
+  .header-top .brand { min-width: 0; height: 52px !important; overflow: hidden; }
+  .header-top .brand b { font-size: 18px !important; white-space: nowrap; }
+  .brand-logo { width: 32px !important; height: 32px !important; }
+  .header-tools { gap: 3px !important; }
+  .header-tools .user-name, .account-chevron { display: none !important; }
+  .account-toggle { width: 38px !important; padding: 0 !important; justify-content: center; }
+  .app-header .main-nav { height: 48px !important; width: calc(100% + 28px) !important; margin-left: -14px; padding: 0 14px; gap: 5px !important; overflow-x: auto !important; overflow-y: visible !important; scrollbar-width: thin; -webkit-overflow-scrolling: touch; }
+  .app-header .main-nav a { height: 33px !important; padding: 0 10px !important; font-size: 14px !important; }
+  .app-header .main-nav a span { font-size: 13px !important; }
+  .settings-nav-dropdown, .admin-page .settings-nav-dropdown { position: fixed !important; top: 102px !important; right: 12px !important; left: auto !important; z-index: 2200 !important; width: min(280px, calc(100vw - 24px)) !important; }
+  .account-dropdown { position: fixed !important; top: 54px !important; right: 12px !important; width: min(250px, calc(100vw - 24px)) !important; z-index: 2300 !important; }
+
+  .title-row { display: flex !important; flex-direction: column; align-items: flex-start !important; gap: 12px; margin-top: 20px !important; }
+  .title-row h1, .entry-title h1 { font-size: 24px !important; line-height: 1.2; }
+  .title-row p, .entry-title p { font-size: 14px; line-height: 1.45; }
+  .title-actions { width: 100%; }
+
+  .stats { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .stats article { min-height: 94px; }
+  .filters { display: flex !important; flex-direction: column; gap: 10px !important; padding: 14px !important; }
+  .filters input, .filters select, .filters button { width: 100% !important; max-width: none !important; }
+  .filters button { min-height: 44px; }
+
+  .found-items-table { width: 100% !important; max-width: 100% !important; overflow-x: auto !important; resize: none !important; -webkit-overflow-scrolling: touch; }
+  .found-items-table table { min-width: 980px !important; width: max-content !important; }
+  .found-items-table th, .found-items-table td { font-size: 12px !important; }
+  .stretch-view .found-items-table { overflow-x: auto !important; }
+  .stretch-view .found-items-table table { min-width: 980px !important; width: max-content !important; }
+
+  .entry-title { margin-top: 20px; }
+  .entry-panel { padding: 14px !important; }
+  .entry-grid, .admin-page .admin-form-panel, .profile-form { grid-template-columns: 1fr !important; gap: 14px !important; }
+  .entry-grid .details-field, .item-images-field, .related-cards-field, .wide, .profile-actions { grid-column: auto !important; }
+  .entry-grid input, .entry-grid select, .entry-grid textarea, .search-select-trigger { min-height: 44px; font-size: 16px; }
+  .entry-grid textarea { min-height: 100px; }
+  .entry-actions { width: 100%; flex-wrap: wrap; gap: 10px !important; }
+  .entry-actions button, .entry-actions a { flex: 1 1 140px; min-height: 42px; justify-content: center; }
+  .item-images-panel, .image-upload-panel { width: 100% !important; min-width: 0 !important; }
+  .image-upload-panel { flex-wrap: wrap !important; }
+
+  .admin-page .settings-menu { position: static !important; display: flex !important; flex-wrap: nowrap !important; overflow-x: auto; padding: 8px !important; margin: 14px 0 20px !important; -webkit-overflow-scrolling: touch; }
+  .admin-page .settings-menu a { flex: 0 0 auto; white-space: nowrap; }
+  .admin-page .location-add, .admin-page .item-definition-add { display: flex !important; flex-direction: column; gap: 10px; padding: 14px !important; }
+  .admin-page .location-add input, .admin-page .location-add button, .admin-page .item-definition-add input, .admin-page .item-definition-add select, .admin-page .item-definition-add button { width: 100% !important; max-width: none !important; }
+  .admin-page .location-list, .admin-page .users-panel { padding: 10px !important; overflow-x: auto; }
+  .admin-page .location-list > div { flex-wrap: wrap; gap: 8px; }
+  .item-definition-edit-form { width: 100%; flex-wrap: wrap !important; }
+  .item-definition-edit-form input, .item-definition-edit-form select, .item-definition-edit-form button { flex: 1 1 150px; max-width: none !important; }
+
+  .profile-container { padding: 20px 14px 32px !important; }
+  .profile-card { padding: 18px !important; }
+  .profile-tabs { overflow-x: auto; padding-bottom: 2px; }
+  .profile-tabs a { flex: 0 0 auto; }
+  .avatar-editor { flex-direction: column; gap: 14px !important; }
+  .profile-actions { display: flex; flex-wrap: wrap; }
+  .profile-actions .save-profile, .profile-actions a { flex: 1 1 130px; text-align: center; }
+
+  /* Kullanıcı düzenleme sayfasının özel başlığı. */
+  .user-edit-app-header { height: auto !important; min-height: 108px; }
+  .user-edit-brand { height: 54px !important; padding: 0 14px !important; }
+  .user-edit-brand img { width: 36px !important; height: 36px !important; }
+  .user-edit-brand strong { font-size: 20px !important; }
+  .user-edit-nav { height: 54px !important; padding: 0 14px !important; gap: 4px !important; overflow-x: auto !important; }
+  .user-edit-nav a { flex: 0 0 auto; font-size: 14px !important; padding: 9px 10px !important; }
+  .user-edit-nav .settings-link { margin-left: 0 !important; }
+}
+
+@media screen and (max-width: 520px) {
+  .header-top .brand span:not(.brand-mark), .header-top .brand b { font-size: 0 !important; }
+  .header-top .brand b::after { content: 'Lost & Found'; font-size: 17px; }
+  .header-tools button:first-child { display: none; }
+  .title-row h1, .entry-title h1 { font-size: 22px !important; }
+  .entry-panel, .profile-card { border-radius: 8px !important; }
+  .search-select-menu { position: fixed !important; inset: auto 10px 10px !important; max-height: 70vh; overflow: auto; }
+  .search-select-options { max-height: 48vh !important; }
+  .item-actions { grid-template-columns: repeat(3, 34px) !important; }
+  .login-page { padding: 16px !important; align-items: flex-start !important; }
+  .login-card { width: 100% !important; padding: 24px 18px !important; }
+}

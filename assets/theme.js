@@ -1,5 +1,10 @@
 (function(){
   try{document.documentElement.dataset.theme=localStorage.getItem('lf-theme')||'light'}catch(error){document.documentElement.dataset.theme='light'}
+  const base=location.pathname.slice(0,location.pathname.lastIndexOf('/')+1);
+  const responsive=document.createElement('link');
+  responsive.rel='stylesheet';
+  responsive.href=base+'assets/responsive.css?v=20260717-1';
+  document.head.appendChild(responsive);
 })();
 
 document.addEventListener('DOMContentLoaded',()=>{
