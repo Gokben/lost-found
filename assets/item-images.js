@@ -1,9 +1,27 @@
 (() => {
   'use strict';
   const layout = document.createElement('style');
-  layout.textContent = '.entry-grid .add-related-item{grid-column:3 / 4!important;align-self:end!important;min-height:105px!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:12px!important;background:#fffaf5!important;border:1px dashed #f97316!important;border-radius:9px!important}.entry-grid .add-related-item .new-button{width:100%!important;max-width:190px!important;min-height:48px!important;margin:0!important;border-radius:8px!important;font-size:17px!important;font-weight:700!important}@media(max-width:1200px){.entry-grid .add-related-item{grid-column:auto!important}}';
+  layout.textContent = '.entry-grid .add-related-item{grid-column:3 / 4!important;align-self:end!important;min-height:105px!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:12px!important;background:#fffaf5!important;border:1px dashed #f97316!important;border-radius:9px!important}.entry-grid .add-related-item .new-button{width:100%!important;max-width:190px!important;min-height:48px!important;margin:0!important;border-radius:8px!important;font-size:17px!important;font-weight:700!important}.label-print-icon,.item-actions .label-print-action{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:34px!important;height:30px!important;min-width:34px!important;padding:0!important;border:0!important;border-radius:4px!important;background:#f97316!important;color:#fff!important;text-decoration:none!important;font-size:17px!important;font-weight:700!important;line-height:1!important}.label-print-icon:hover,.item-actions .label-print-action:hover{filter:brightness(.92)!important}@media(max-width:1200px){.entry-grid .add-related-item{grid-column:auto!important}}';
   document.head.append(layout);
   layout.textContent += '.entry-grid .add-related-item .new-button{display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important}';
+  layout.textContent += '.item-actions{grid-template-columns:repeat(3,34px)!important}';
+  const addPrintActions = () => {
+    document.querySelectorAll('.item-actions .edit-action').forEach(link => link.remove());
+    document.querySelectorAll('.item-actions .folder-action').forEach(link => {
+      link.innerHTML = '<svg viewBox="0 0 32 25" width="23" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8V4.8A2.8 2.8 0 0 1 5.8 2h6.4l3.1 3.6H26A3 3 0 0 1 29 8.6v1.1"/><path d="M3 10.4h25.5l-3.7 9.4a2.2 2.2 0 0 1-2.1 1.4H5.2a2.2 2.2 0 0 1-2.1-3l3-6.5a2.2 2.2 0 0 1 2-1.3Z"/></svg>';
+      link.title = 'Kaydı aç';
+    });
+    document.querySelectorAll('.entry-actions a[href*="item-label.php"]').forEach(link => { link.classList.add('label-print-icon'); link.textContent = '⎙'; link.title = 'Etiket yazdır'; link.setAttribute('aria-label', 'Etiket yazdır'); });
+    document.querySelectorAll('.item-row[data-edit-url]').forEach(row => {
+      const actions = row.querySelector('.item-actions');
+      if (!actions || actions.querySelector('.label-print-action')) return;
+      const link = document.createElement('a');
+      link.className = 'label-print-action'; link.target = '_blank'; link.title = 'Etiket yazdır'; link.setAttribute('aria-label', 'Etiket yazdır');
+      link.href = row.dataset.editUrl.replace('item-edit.php', 'item-label.php'); link.textContent = '⎙'; actions.append(link);
+    });
+    document.querySelectorAll('.item-actions form').forEach(form => form.parentElement.append(form));
+  };
+  document.addEventListener('DOMContentLoaded', addPrintActions);
   document.querySelectorAll('.item-image-tile > input[type=checkbox]').forEach(input => input.hidden = true);
   document.addEventListener('click', event => {
     if (event.target.closest('.item-image-remove')) { event.preventDefault(); event.stopPropagation(); }
