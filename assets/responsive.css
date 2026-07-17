@@ -26,7 +26,10 @@
   .app-header .main-nav { height: 48px !important; width: calc(100% + 28px) !important; margin-left: -14px; padding: 0 14px; gap: 5px !important; overflow-x: auto !important; overflow-y: visible !important; scrollbar-width: thin; -webkit-overflow-scrolling: touch; }
   .app-header .main-nav a { height: 33px !important; padding: 0 10px !important; font-size: 14px !important; }
   .app-header .main-nav a span { font-size: 13px !important; }
-  .settings-nav-dropdown, .admin-page .settings-nav-dropdown { position: fixed !important; top: 102px !important; right: 12px !important; left: auto !important; z-index: 2200 !important; width: min(280px, calc(100vw - 24px)) !important; }
+  .settings-nav-dropdown, .admin-page .settings-nav-dropdown { display: none !important; position: fixed !important; top: 102px !important; right: 12px !important; left: auto !important; z-index: 2200 !important; width: min(280px, calc(100vw - 24px)) !important; max-height: calc(100vh - 118px); overflow-y: auto; padding: 8px !important; background: #fff !important; border: 1px solid #ebe9ef !important; border-radius: 10px !important; box-shadow: 0 12px 30px rgba(47,43,61,.22) !important; }
+  .settings-nav-dropdown.open, .admin-page .settings-nav-dropdown.open { display: block !important; }
+  .app-header .main-nav .settings-nav-dropdown a { display: flex !important; width: 100% !important; height: 42px !important; margin: 0 !important; padding: 0 12px !important; color: #5d596c !important; background: transparent !important; box-shadow: none !important; }
+  .app-header .main-nav .settings-nav-dropdown a:hover, .app-header .main-nav .settings-nav-dropdown a:focus { background: #f4f3ff !important; color: #7367f0 !important; }
   .account-dropdown { position: fixed !important; top: 54px !important; right: 12px !important; width: min(250px, calc(100vw - 24px)) !important; z-index: 2300 !important; }
 
   .title-row { display: flex !important; flex-direction: column; align-items: flex-start !important; gap: 12px; margin-top: 20px !important; }

@@ -53,7 +53,7 @@ function definition_list(array $rows,string $prefix,string $confirm):void{foreac
     </div>
   </nav>
 </header>
-<script defer src="<?=url('assets/admin-menu.js')?>"></script>
+<script defer src="<?=url('assets/admin-menu.js?v=20260717-1')?>"></script>
 <main class="container entry-container admin-container"><div class="entry-title"><h1>Yazılım ayarları</h1><p>Tüm tanımları ve kullanıcı yetkilerini tek ekrandan yönetin.</p></div>
 <?php if($message):?><div class="success"><?=e($message)?></div><?php endif?><?php if($error):?><div class="alert"><?=e($error)?></div><?php endif?>
 <form id="genel" class="entry-panel form-grid settings-section admin-form-panel" method="post"><input type="hidden" name="csrf" value="<?=csrf()?>"><input type="hidden" name="action" value="settings"><label>Otel adı<input name="hotel_name" value="<?=e($settings['hotel_name']??'Sofitel Istanbul Taksim')?>" required></label><label>İletişim e-postası<input type="email" name="contact_email" value="<?=e($settings['contact_email']??'')?>"></label><div class="wide entry-actions admin-entry-actions"><button class="save-button">Kaydet</button></div></form>

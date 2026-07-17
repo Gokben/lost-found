@@ -25,13 +25,17 @@ settingsNavToggle.addEventListener('click', event => {
   else openSettingsMenu();
 });
 
-settingsNavMenu.addEventListener('mouseenter', () => {
-  openSettingsMenu();
-});
+// Hover only exists on a mouse. Touch browsers otherwise keep the menu open
+// while the user scrolls the page.
+if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  settingsNavMenu.addEventListener('mouseenter', () => {
+    openSettingsMenu();
+  });
 
-settingsNavMenu.addEventListener('mouseleave', () => {
-  settingsCloseTimer = setTimeout(closeSettingsMenu, 120);
-});
+  settingsNavMenu.addEventListener('mouseleave', () => {
+    settingsCloseTimer = setTimeout(closeSettingsMenu, 120);
+  });
+}
 
 settingsNavDropdown.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', closeSettingsMenu);
