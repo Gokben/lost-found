@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Eşya ekle">
+  <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 14h12l11 48h40l9-31H29" stroke-width="7"/>
+    <circle cx="39" cy="79" r="6" fill="#fff" stroke="none"/>
+    <circle cx="68" cy="79" r="6" fill="#fff" stroke="none"/>
+    <circle cx="72" cy="29" r="19" fill="#171717" stroke="#fff" stroke-width="2"/>
+    <path d="M72 19v20M62 29h20" stroke="#fff" stroke-width="6"/>
+  </g>
+</svg>

@@ -5,6 +5,7 @@
   document.head.append(layout);
   layout.textContent += '.entry-grid .add-related-item .new-button{display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important}';
   layout.textContent += '.item-actions{grid-template-columns:repeat(3,34px)!important}';
+  layout.textContent += '.label-print-icon,.item-actions .label-print-action,.item-actions .folder-action{background:#bd4b0d!important;border-color:#bd4b0d!important}.label-print-icon img,.item-actions .label-print-action img,.item-actions .folder-action svg{width:18px!important;height:18px!important;object-fit:contain!important}';
   const addPrintActions = () => {
     document.querySelectorAll('.item-actions .edit-action').forEach(link => link.remove());
     document.querySelectorAll('.item-actions .folder-action').forEach(link => {
@@ -21,7 +22,12 @@
     });
     document.querySelectorAll('.item-actions form').forEach(form => form.parentElement.append(form));
   };
-  document.addEventListener('DOMContentLoaded', addPrintActions);
+  document.addEventListener('DOMContentLoaded', () => {
+    addPrintActions();
+    document.querySelectorAll('.label-print-icon,.label-print-action').forEach(link => {
+      link.innerHTML = '<img src="assets/print-icon.svg" alt="">';
+    });
+  });
   document.querySelectorAll('.item-image-tile > input[type=checkbox]').forEach(input => input.hidden = true);
   document.addEventListener('click', event => {
     if (event.target.closest('.item-image-remove')) { event.preventDefault(); event.stopPropagation(); }

@@ -3,11 +3,50 @@
   const base=location.pathname.slice(0,location.pathname.lastIndexOf('/')+1);
   const responsive=document.createElement('link');
   responsive.rel='stylesheet';
-  responsive.href=base+'assets/responsive.css?v=20260717-3';
+  responsive.href=base+'assets/responsive.css?v=20260718-4';
   document.head.appendChild(responsive);
 })();
 
 document.addEventListener('DOMContentLoaded',()=>{
+  const saveIconBase=location.pathname.slice(0,location.pathname.lastIndexOf('/')+1);
+  document.querySelectorAll('button').forEach(button=>{
+    if(button.dataset.saveIcon==='1'||button.textContent.trim()!=='Kaydet')return;
+    button.dataset.saveIcon='1';button.classList.add('save-icon-button');button.title='Kaydet';button.setAttribute('aria-label','Kaydet');
+    button.innerHTML='<img src="'+saveIconBase+'assets/save-icon.svg" alt="">';
+  });
+  document.querySelectorAll('button').forEach(button=>{
+    if(!button.textContent.trim().includes('Yeni eşya'))return;
+    button.remove();
+  });
+  document.querySelectorAll('button').forEach(button=>{
+    if(!button.textContent.trim().includes('İlgili eşya ekle'))return;
+    button.classList.add('add-related-icon-button');
+    button.title='İlgili Eşya Ekle';
+    button.setAttribute('aria-label','İlgili Eşya Ekle');
+    button.innerHTML='<img src="'+saveIconBase+'assets/add-item-icon.svg" alt="">';
+  });
+  document.querySelectorAll('.entry-actions a').forEach(link=>{
+    if(link.textContent.trim()!=='İptal')return;
+    link.classList.add('cancel-icon-button');
+    link.title='İptal';
+    link.setAttribute('aria-label','İptal');
+    link.innerHTML='<img src="'+saveIconBase+'assets/cancel-icon.svg" alt="">';
+  });
+  const detailsField=document.querySelector('textarea[name="details"]');
+  if(detailsField){
+    detailsField.maxLength=512;
+    detailsField.classList.add('details-expandable');
+    const count=document.createElement('small');
+    count.className='details-character-count';
+    const refreshCount=()=>{count.textContent=detailsField.value.length+'/512 karakter';};
+    detailsField.insertAdjacentElement('afterend',count);
+    detailsField.addEventListener('input',refreshCount);
+    refreshCount();
+  }
+  if(location.pathname.endsWith('/item-new.php')){
+    const home=document.querySelector('header .home-link');
+    if(home){home.classList.add('entry-home-icon');home.innerHTML='<img src="'+saveIconBase+'assets/home-icon.svg" alt="">';}
+  }
   if(!location.pathname.endsWith('/user-edit.php'))return;
   const base=location.pathname.replace(/user-edit\.php$/,'');
   const header=document.querySelector('header');if(!header)return;

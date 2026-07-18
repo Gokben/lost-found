@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Ana sayfa">
+  <defs>
+    <linearGradient id="homeBlue" x1="14" y1="6" x2="49" y2="59" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#63b6e9"/>
+      <stop offset=".5" stop-color="#218fd0"/>
+      <stop offset="1" stop-color="#0870b6"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="29" fill="url(#homeBlue)" stroke="#0a6ba9" stroke-width="2"/>
+  <path d="M15 31.5 32 16l17 15.5" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M20 29.5 32 19l12 10.5V48H20Z" fill="#fff" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M28 48V37c0-2.2 1.8-4 4-4s4 1.8 4 4v11" fill="#1686c9"/>
+</svg>

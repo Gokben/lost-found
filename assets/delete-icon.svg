@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Sil">
+  <g fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M13 18h38"/>
+    <path d="M25 12h14l3 6H22l3-6Z"/>
+    <path d="M17 18l3 35a5 5 0 0 0 5 4h14a5 5 0 0 0 5-4l3-35"/>
+    <path d="M27 28v19M37 28v19"/>
+  </g>
+</svg>
