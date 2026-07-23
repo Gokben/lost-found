@@ -5,6 +5,7 @@ require_login();
 
 $q = trim($_GET['q'] ?? '');
 $status = $_GET['status'] ?? '';
+$department = trim($_GET['department'] ?? '');
 $sql = 'SELECT i.*, COALESCE(c.retention_days, 90) AS retention_days, EXISTS(SELECT 1 FROM items related WHERE related.parent_item_id=i.id) AS has_related_cards FROM items i LEFT JOIN category_definitions c ON c.id=i.category_id WHERE i.parent_item_id IS NULL';
 $params = [];
 if ($q !== '') {
@@ -16,6 +17,10 @@ if ($status !== '') {
     $sql .= ' AND status=?';
     $params[] = $status;
 }
+if ($department !== '') {
+    $sql .= ' AND found_department=?';
+    $params[] = $department;
+}
 $sql .= " ORDER BY CASE WHEN i.found_at IS NULL OR i.found_at='' THEN 1 ELSE 0 END, i.found_at DESC, i.id DESC LIMIT 100";
 $stmt = db()->prepare($sql);
 $stmt->execute($params);
@@ -23,6 +28,7 @@ $items = $stmt->fetchAll();
 $itemImages = item_images_for_items(array_column($items, 'id'));
 $counts = db()->query("SELECT COUNT(*) total,SUM(status='Depoda') storage,SUM(status='Eşleşme bekliyor') waiting,SUM(status LIKE 'Teslim edildi%') delivered FROM items WHERE parent_item_id IS NULL")->fetch();
 $statuses = ['Eşleşme bekliyor','Talep sahibinden eylem bekliyor','Yetkilendirilmiş kişi bekleniyor','Teslim edildi','Teslim edildi (Görüşüldü)','Depoda','Kargolandı','Tasfiye edildi'];
+$departments = db()->query('SELECT name FROM department_definitions WHERE active=1 ORDER BY sort_order,name')->fetchAll(PDO::FETCH_COLUMN);
 $today = new DateTimeImmutable('today', new DateTimeZone('Europe/Istanbul'));
 $profileStmt=db()->prepare('SELECT setting_value FROM settings WHERE setting_key=?');$profileStmt->execute(['profile_'.(int)$_SESSION['user']['id']]);$profile=json_decode((string)$profileStmt->fetchColumn(),true)?:[];$avatar=$profile['avatar']??'';
 ?>
@@ -61,7 +67,7 @@ $profileStmt=db()->prepare('SELECT setting_value FROM settings WHERE setting_key
 <main class="container">
 <section class="title-row"><div><h1>Bulunan Eşyalar</h1><p>Otelde bulunan eşyaları kaydedin, takip edin ve teslim süreçlerini yönetin.</p></div><div class="title-actions"><button id="stretch-toggle" class="view-toggle" type="button" title="Esnek görünüme geç" aria-label="Esnek görünüme geç" aria-pressed="false"><span aria-hidden="true">⤢</span></button><a class="primary button new-item-record-action" href="<?=url('item-new.php')?>" title="Eşya Ekle" aria-label="Eşya Ekle"><img src="<?=url('assets/add-item-icon.svg')?>" alt=""></a></div></section>
 <section class="stats"><article><span>Toplam Kayıt</span><strong><?=(int)($counts['total']??0)?></strong></article><article><span>Depodaki Eşyalar</span><strong><?=(int)($counts['storage']??0)?></strong></article><article><span>Eşleşme Bekleyen</span><strong><?=(int)($counts['waiting']??0)?></strong></article><article><span>Teslim Edilen</span><strong><?=(int)($counts['delivered']??0)?></strong></article></section>
-<section class="panel"><form class="filters"><input name="q" value="<?=e($q)?>" placeholder="Birden fazla terim için ; kullanın (Lobby; Apple; Beyaz)" title="Her terim farklı bir kolonda bulunabilir. Terimleri noktalı virgülle ayırın."><select name="status"><option value="">Tüm Durumlar</option><?php foreach($statuses as $s):?><option <?=($status===$s)?'selected':''?>><?=e($s)?></option><?php endforeach?></select><button class="search-icon-button" type="submit" title="Ara" aria-label="Ara"><img src="<?=url('assets/search-icon.svg')?>" alt=""></button></form>
+<section class="panel"><form class="filters"><input name="q" value="<?=e($q)?>" placeholder="Birden fazla terim için ; kullanın (Lobby; Apple; Beyaz)" title="Her terim farklı bir kolonda bulunabilir. Terimleri noktalı virgülle ayırın."><select name="status" onchange="this.form.submit()"><option value="">Tüm Durumlar</option><?php foreach($statuses as $s):?><option <?=($status===$s)?'selected':''?>><?=e($s)?></option><?php endforeach?></select><select name="department" aria-label="Bulan departman" onchange="this.form.submit()"><option value="">Tüm Departmanlar</option><?php foreach($departments as $departmentName):?><option value="<?=e($departmentName)?>" <?=($department===$departmentName)?'selected':''?>><?=e($departmentName)?></option><?php endforeach?></select><button class="search-icon-button" type="submit" title="Ara" aria-label="Ara"><img src="<?=url('assets/search-icon.svg')?>" alt=""></button></form>
 <div class="table-wrap found-items-table"><table><thead><tr><th></th><th>Eşya<br>No</th><th>Seri No</th><th>Bulunma<br>Tarihi</th><th>Bulunduğu<br>Yer</th><th>Kategori</th><th>Eşya İsmi</th><th>Marka</th><th>Renk</th><th>Bulan</th><th>Kaydeden</th><th>Görseller</th><th>Miktar</th><th>Detaylar</th><th>Depo</th><th>Eşya<br>Statüsü</th><th>Saklama<br>Süresi</th><th>İlgili Eşleşmeler<br>/ Talepler</th><th>Teslimat<br>Tarihi</th><th>Detaylar</th><th>İletişim<br>Durumu</th><th>Eylemler</th></tr></thead><tbody>
 <?php foreach($items as $item):
   $foundDate = new DateTimeImmutable((string)$item['found_at'], new DateTimeZone('Europe/Istanbul'));
