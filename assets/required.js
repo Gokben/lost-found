@@ -42,6 +42,28 @@ if (locationSelect && roomField) {
   locationSelect.addEventListener('change', toggleRoom); toggleRoom();
 }
 
+document.querySelectorAll('[data-date-picker]').forEach(button => {
+  const picker = document.getElementById(button.dataset.datePicker);
+  const field = button.closest('.fixed-date-field');
+  const display = field?.querySelector('input[name]');
+  if (!picker || !display) return;
+  const setDisplay = () => {
+    if (!picker.value) return;
+    const [year, month, day] = picker.value.split('-');
+    display.value = `${day}.${month}.${year}`;
+  };
+  button.addEventListener('click', () => {
+    picker.focus();
+    if (typeof picker.showPicker === 'function') picker.showPicker();
+    else picker.click();
+  });
+  picker.addEventListener('change', setDisplay);
+  display.addEventListener('input', () => {
+    const match = display.value.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+    if (match) picker.value = `${match[3]}-${match[2]}-${match[1]}`;
+  });
+});
+
 const relatedValue = document.getElementById('related-items-value');
 const relatedRows = document.getElementById('related-card-rows');
 if (relatedValue && relatedRows) {
