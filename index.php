@@ -34,7 +34,7 @@ $today = new DateTimeImmutable('today', new DateTimeZone('Europe/Istanbul'));
 $profileStmt=db()->prepare('SELECT setting_value FROM settings WHERE setting_key=?');$profileStmt->execute(['profile_'.(int)$_SESSION['user']['id']]);$profile=json_decode((string)$profileStmt->fetchColumn(),true)?:[];$avatar=$profile['avatar']??'';
 if (is_read_only()) {
     $viewUrlBase = json_encode(url('item-edit.php?id='), JSON_UNESCAPED_SLASHES);
-    echo '<style>.new-item-record-action,header nav a[href*="item-new.php"],.edit-action{display:none!important}</style><script>document.addEventListener("DOMContentLoaded",()=>{const viewUrlBase=' . $viewUrlBase . ';document.querySelectorAll(".item-row").forEach(row=>{const viewUrl=viewUrlBase+encodeURIComponent(row.dataset.itemId)+"&view=1";row.dataset.editUrl=viewUrl;row.querySelectorAll("a[href*=\\"item-edit.php\\"]").forEach(link=>link.href=viewUrl)})})</script>';
+    echo '<style>.new-item-record-action,header nav>a:nth-of-type(3),header nav>a:nth-of-type(4),header nav>a:nth-of-type(5),.edit-action{display:none!important}</style><script>document.addEventListener("DOMContentLoaded",()=>{const viewUrlBase=' . $viewUrlBase . ';document.querySelectorAll(".item-row").forEach(row=>{const viewUrl=viewUrlBase+encodeURIComponent(row.dataset.itemId)+"&view=1";row.dataset.editUrl=viewUrl;row.querySelectorAll("a[href*=\\"item-edit.php\\"]").forEach(link=>link.href=viewUrl)})})</script>';
 }
 ?>
 <!doctype html>
