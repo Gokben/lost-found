@@ -22,4 +22,7 @@ function csrf():string{return $_SESSION['csrf']??=bin2hex(random_bytes(32));}
 function verify_csrf():void{if(!hash_equals($_SESSION['csrf']??'',$_POST['csrf']??'')){http_response_code(419);exit('Oturum doğrulanamadı.');}}
 function require_login():void{if(empty($_SESSION['user']))redirect('login.php');}
 function is_admin():bool{return($_SESSION['user']['role']??'')==='Admin';}
+function is_read_only():bool{return($_SESSION['user']['role']??'')==='Viewer';}
+function can_manage_records():bool{return !is_read_only();}
+function require_record_manager():void{require_login();if(!can_manage_records()){http_response_code(403);exit('Bu kullanıcı yalnızca kayıtları görüntüleyebilir.');}}
 function require_admin():void{require_login();if(!is_admin()){http_response_code(403);exit('Bu sayfaya erişim yetkiniz yok.');}}

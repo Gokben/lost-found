@@ -21,7 +21,7 @@ if (!function_exists('date_input_to_storage')) {
         return null;
     }
 }
-require_login();
+require_record_manager();
 
 function record_timestamp_display(?string $value): string {
     $value = trim((string)$value);
