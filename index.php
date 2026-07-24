@@ -32,7 +32,10 @@ $statuses = ['Eşleşme bekliyor','Talep sahibinden eylem bekliyor','Yetkilendir
 $departments = db()->query("SELECT name FROM department_definitions WHERE active=1 AND name IN ('Housekeeping','SPA') ORDER BY CASE name WHEN 'Housekeeping' THEN 1 WHEN 'SPA' THEN 2 END")->fetchAll(PDO::FETCH_COLUMN);
 $today = new DateTimeImmutable('today', new DateTimeZone('Europe/Istanbul'));
 $profileStmt=db()->prepare('SELECT setting_value FROM settings WHERE setting_key=?');$profileStmt->execute(['profile_'.(int)$_SESSION['user']['id']]);$profile=json_decode((string)$profileStmt->fetchColumn(),true)?:[];$avatar=$profile['avatar']??'';
-if (is_read_only()) echo '<style>.new-item-record-action,.document-action,.item-actions{display:none!important}</style><script>document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll(".item-row").forEach(row=>row.removeAttribute("data-edit-url"))})</script>';
+if (is_read_only()) {
+    $viewUrlBase = json_encode(url('item-edit.php?id='), JSON_UNESCAPED_SLASHES);
+    echo '<style>.new-item-record-action,header nav a[href*="item-new.php"],.edit-action{display:none!important}</style><script>document.addEventListener("DOMContentLoaded",()=>{const viewUrlBase=' . $viewUrlBase . ';document.querySelectorAll(".item-row").forEach(row=>{const viewUrl=viewUrlBase+encodeURIComponent(row.dataset.itemId)+"&view=1";row.dataset.editUrl=viewUrl;row.querySelectorAll("a[href*=\\"item-edit.php\\"]").forEach(link=>link.href=viewUrl)})})</script>';
+}
 ?>
 <!doctype html>
 <html lang="tr">

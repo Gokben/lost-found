@@ -21,7 +21,8 @@ if (!function_exists('date_input_to_storage')) {
         return null;
     }
 }
-require_record_manager();
+require_login();
+$readOnly = is_read_only();
 
 function record_timestamp_display(?string $value): string {
     $value = trim((string)$value);
@@ -47,6 +48,10 @@ $currentDefinition = 'current';
 foreach ($definitions as $definition) if ($definition['category'] === $item['category'] && $definition['name'] === $item['name']) { $currentDefinition = (string)$definition['id']; break; }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($readOnly) {
+        http_response_code(403);
+        exit('Bu kullanıcı yalnızca kayıtları görüntüleyebilir.');
+    }
     verify_csrf();
     $foundAt = date_input_to_storage($_POST['found_at'] ?? '');
     $deliveredAt = date_input_to_storage($_POST['delivered_at'] ?? '');
@@ -100,6 +105,7 @@ $recordedAt = record_timestamp_display($item['created_at'] ?? '');
 $updatedAt = record_timestamp_display($item['updated_at'] ?? $item['created_at'] ?? '');
 $recordedBy = trim((string)($item['recorded_by'] ?? '')) ?: '—';
 $updatedBy = trim((string)($item['updated_by'] ?? '')) ?: '—';
+if ($readOnly) echo '<style>#item-form input,#item-form select,#item-form textarea,#item-form button{pointer-events:none}#item-form .save-button,#item-form .add-related-action,#item-form .item-image-uploader,#item-form .item-image-remove{display:none!important}</style>';
 ?>
 <!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Eşya Düzenle | <?=APP_NAME?></title>
 <link rel="icon" href="<?=url('assets/favicon.png')?>"><link rel="stylesheet" href="<?=url('assets/style.css')?>"><link rel="stylesheet" href="<?=url('assets/item-new.css')?>"><link rel="stylesheet" href="<?=url('assets/entry.css')?>"><link rel="stylesheet" href="<?=url('assets/item-images.css')?>"><link rel="stylesheet" href="<?=url('assets/required.css')?>"><link rel="stylesheet" href="<?=url('assets/home-link.css')?>"><link rel="stylesheet" href="<?=url('assets/amerce/fonts/fonts.css')?>"><link rel="stylesheet" href="<?=url('assets/amerce/css/bootstrap.min.css')?>"><link rel="stylesheet" href="<?=url('assets/amerce/css/styles.css')?>"><link rel="stylesheet" href="<?=url('assets/amerce-lf.css')?>"><link rel="stylesheet" href="<?=url('assets/vuexy-inspired.css')?>"><link rel="stylesheet" href="<?=url('assets/green-buttons.css?v=20260712-3')?>"><script src="<?=url('assets/theme.js?v=20260718-6')?>"></script></head><body>
