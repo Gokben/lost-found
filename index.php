@@ -28,7 +28,7 @@ $items = $stmt->fetchAll();
 $itemImages = item_images_for_items(array_column($items, 'id'));
 $counts = db()->query("SELECT COUNT(*) total,SUM(status='Depoda') storage,SUM(status='Eşleşme bekliyor') waiting,SUM(status LIKE 'Teslim edildi%') delivered FROM items WHERE parent_item_id IS NULL")->fetch();
 $statuses = ['Eşleşme bekliyor','Talep sahibinden eylem bekliyor','Yetkilendirilmiş kişi bekleniyor','Teslim edildi','Teslim edildi (Görüşüldü)','Depoda','Kargolandı','Tasfiye edildi'];
-$departments = db()->query('SELECT name FROM department_definitions WHERE active=1 ORDER BY sort_order,name')->fetchAll(PDO::FETCH_COLUMN);
+$departments = db()->query("SELECT name FROM department_definitions WHERE active=1 AND name IN ('Housekeeping','SPA') ORDER BY CASE name WHEN 'Housekeeping' THEN 1 WHEN 'SPA' THEN 2 END")->fetchAll(PDO::FETCH_COLUMN);
 $today = new DateTimeImmutable('today', new DateTimeZone('Europe/Istanbul'));
 $profileStmt=db()->prepare('SELECT setting_value FROM settings WHERE setting_key=?');$profileStmt->execute(['profile_'.(int)$_SESSION['user']['id']]);$profile=json_decode((string)$profileStmt->fetchColumn(),true)?:[];$avatar=$profile['avatar']??'';
 ?>
