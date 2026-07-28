@@ -7,7 +7,8 @@ $departments=db()->query('SELECT name FROM department_definitions WHERE active=1
 $storages=db()->query('SELECT name FROM storage_definitions WHERE active=1 ORDER BY sort_order,name')->fetchAll();
 $itemDefinitions=db()->query('SELECT id,category,name FROM item_definitions WHERE active=1 ORDER BY sort_order,category,name')->fetchAll();
 $statuses=['Eşleşme bekliyor','Talep sahibinden eylem bekliyor','Yetkilendirilmiş kişi bekleniyor','Teslim edildi','Teslim edildi (Görüşüldü)','Depoda','Kargolandı','Tasfiye edildi'];
-$draftNo=$_POST['item_no']??(date('ymd').'-'.str_pad((string)random_int(1,9999),4,'0',STR_PAD_LEFT));
+function next_item_no(): string { $exists=db()->prepare('SELECT 1 FROM items WHERE item_no=? LIMIT 1'); for($attempt=0;$attempt<100;$attempt++){ $itemNo=date('ymd').'-'.str_pad((string)random_int(1,9999),4,'0',STR_PAD_LEFT); $exists->execute([$itemNo]); if(!$exists->fetchColumn())return $itemNo; } throw new RuntimeException('Benzersiz eşya numarası üretilemedi.'); }
+$draftNo=$_POST['item_no']??next_item_no();
 $parentItemId=(int)($_GET['parent_id']??$_POST['parent_item_id']??0);
 $parentItem=null;if($parentItemId){$parentStmt=db()->prepare('SELECT id,item_no,category,name FROM items WHERE id=?');$parentStmt->execute([$parentItemId]);$parentItem=$parentStmt->fetch();if(!$parentItem){$parentItemId=0;}}
 if($_SERVER['REQUEST_METHOD']==='POST'){
