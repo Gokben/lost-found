@@ -46,8 +46,8 @@ function definition_list(array $rows,string $prefix,string $confirm):void{$field
     <a href="<?=url('index.php')?>"><span>⌂</span> Ana Sayfa</a>
     <a href="<?=url('index.php')?>"><span>▣</span> Bulunan Eşyalar</a>
     <a href="<?=url('item-new.php')?>"><span>＋</span> Eşya Ekle</a>
-    <a href="#"><span>◎</span> Talepler</a><a href="#"><span>⇄</span> Eşleşmeler</a>
-    <a href="#"><span>▥</span> Teslimatlar</a><a href="#"><span>▤</span> Raporlar</a>
+    <a href="<?=url('transfer.php')?>"><span>⇄</span> Depo Transferi</a>
+    <a href="<?=url('index.php?view=deliveries')?>"><span>▥</span> Teslimatlar</a><a href="#"><span>▤</span> Raporlar</a>
     <div class="settings-nav-menu">
       <a class="active" id="settings-nav-toggle" href="#genel" aria-haspopup="true" aria-expanded="false"><span>⚙</span> Ayarlar <span class="settings-nav-chevron">⌄</span></a>
           <div class="settings-nav-dropdown" id="settings-nav-dropdown">

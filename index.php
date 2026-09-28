@@ -3,12 +3,14 @@ require __DIR__.'/config.php';
 require __DIR__.'/item-images.php';
 require_login();
 
+$deliveries = ($_GET['view'] ?? '') === 'deliveries';
 $q = trim($_GET['q'] ?? '');
 $status = $_GET['status'] ?? '';
 $department = trim($_GET['department'] ?? '');
 if ($department === '') $department = 'Housekeeping';
 $sql = 'SELECT i.*, COALESCE(c.retention_days, 90) AS retention_days, EXISTS(SELECT 1 FROM items related WHERE related.parent_item_id=i.id) AS has_related_cards FROM items i LEFT JOIN category_definitions c ON c.id=i.category_id WHERE i.parent_item_id IS NULL';
 $params = [];
+if ($deliveries) $sql .= " AND i.status LIKE 'Teslim edildi%'";
 if ($q !== '') {
     $searchColumns=['item_no','serial_no','found_at','related_items','location','found_department','found_by','category','name','brand','color','details','storage_location','status','recorded_by','delivery_method','delivered_by','delivery_form_no'];
     $terms=array_slice(array_values(array_filter(array_map('trim',explode(';',$q)),fn($term)=>$term!=='')),0,12);
@@ -36,14 +38,14 @@ $today = new DateTimeImmutable('today', new DateTimeZone('Europe/Istanbul'));
 $profileStmt=db()->prepare('SELECT setting_value FROM settings WHERE setting_key=?');$profileStmt->execute(['profile_'.(int)$_SESSION['user']['id']]);$profile=json_decode((string)$profileStmt->fetchColumn(),true)?:[];$avatar=$profile['avatar']??'';
 if (is_read_only()) {
     $viewUrlBase = json_encode(url('item-edit.php?id='), JSON_UNESCAPED_SLASHES);
-    echo '<style>.new-item-record-action,.edit-action{display:none!important}</style><script>document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll("header nav>a:nth-of-type(3),header nav>a:nth-of-type(4),header nav>a:nth-of-type(5)").forEach(link=>link.style.setProperty("display","none","important"));const viewUrlBase=' . $viewUrlBase . ';document.querySelectorAll(".item-row").forEach(row=>{const viewUrl=viewUrlBase+encodeURIComponent(row.dataset.itemId)+"&view=1";row.dataset.editUrl=viewUrl;row.querySelectorAll("a[href*=\\"item-edit.php\\"]").forEach(link=>link.href=viewUrl)})})</script>';
+    echo '<style>.new-item-record-action,.edit-action{display:none!important}</style><script>document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll("header nav>a[href*=\"item-new.php\"],header nav>a[href*=\"transfer.php\"]").forEach(link=>link.style.setProperty("display","none","important"));const viewUrlBase=' . $viewUrlBase . ';document.querySelectorAll(".item-row").forEach(row=>{const viewUrl=viewUrlBase+encodeURIComponent(row.dataset.itemId)+"&view=1";row.dataset.editUrl=viewUrl;row.querySelectorAll("a[href*=\\"item-edit.php\\"]").forEach(link=>link.href=viewUrl)})})</script>';
 }
 ?>
 <!doctype html>
 <html lang="tr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bulunan Eşyalar | <?=APP_NAME?></title>
+<title><?=$deliveries ? 'Teslimatlar' : 'Bulunan Eşyalar'?> | <?=APP_NAME?></title>
 <link rel="icon" href="<?=url('assets/favicon.png')?>">
 <link rel="stylesheet" href="<?=url('assets/style.css')?>"><link rel="stylesheet" href="<?=url('assets/items-list.css')?>">
 <link rel="stylesheet" href="<?=url('assets/item-images.css')?>">
@@ -66,15 +68,15 @@ if (is_read_only()) {
     <a class="active" href="<?=url('index.php')?>"><span>⌂</span> Ana Sayfa</a>
     <a href="<?=url('index.php')?>"><span>▣</span> Bulunan Eşyalar</a>
     <a href="<?=url('item-new.php')?>"><span>＋</span> Eşya Ekle</a>
-    <a href="#"><span>◎</span> Talepler</a><a href="#"><span>⇄</span> Eşleşmeler</a>
-    <a href="#"><span>▥</span> Teslimatlar</a><a href="#"><span>▤</span> Raporlar</a>
+    <a href="<?=url('transfer.php')?>"><span>⇄</span> Depo Transferi</a>
+    <a href="<?=url('index.php?view=deliveries')?>"><span>▥</span> Teslimatlar</a><a href="#"><span>▤</span> Raporlar</a>
     <?php if(is_admin()):?><div class="settings-nav-menu"><a id="settings-nav-toggle" href="<?=url('admin.php')?>" aria-haspopup="true" aria-expanded="false"><span>⚙</span> Ayarlar <span class="settings-nav-chevron">⌄</span></a><div class="settings-nav-dropdown" id="settings-nav-dropdown"><a href="<?=url('admin.php#genel')?>"><span>⚙</span> Genel</a><a href="<?=url('admin.php#yerler')?>"><span>⌖</span> Bulunduğu yerler</a><a href="<?=url('admin.php#departmanlar')?>"><span>▦</span> Departmanlar</a><a href="<?=url('admin.php#depolar')?>"><span>▣</span> Depolar</a><a href="<?=url('admin.php#kategoriler')?>"><span>◆</span> Kategoriler</a><a href="<?=url('admin.php#esyalar')?>"><span>◆</span> Eşyalar</a><a href="<?=url('admin.php#kullanicilar')?>"><span>♙</span> Kullanıcılar</a></div></div><?php endif?>
   </nav>
 </header>
 <main class="container">
-<section class="title-row"><div><h1>Bulunan Eşyalar</h1><p>Otelde bulunan eşyaları kaydedin, takip edin ve teslim süreçlerini yönetin.</p></div><div class="title-actions"><button id="stretch-toggle" class="view-toggle" type="button" title="Esnek görünüme geç" aria-label="Esnek görünüme geç" aria-pressed="false"><span aria-hidden="true">⤢</span></button><a class="primary button new-item-record-action" href="<?=url('item-new.php')?>" title="Eşya Ekle" aria-label="Eşya Ekle"><img src="<?=url('assets/add-item-icon.svg')?>" alt=""></a></div></section>
+<section class="title-row"><div><h1><?=$deliveries ? 'Teslimatlar' : 'Bulunan Eşyalar'?></h1><p>Otelde bulunan eşyaları kaydedin, takip edin ve teslim süreçlerini yönetin.</p></div><div class="title-actions"><button id="stretch-toggle" class="view-toggle" type="button" title="Esnek görünüme geç" aria-label="Esnek görünüme geç" aria-pressed="false"><span aria-hidden="true">⤢</span></button><a class="primary button new-item-record-action" href="<?=url('item-new.php')?>" title="Eşya Ekle" aria-label="Eşya Ekle"><img src="<?=url('assets/add-item-icon.svg')?>" alt=""></a></div></section>
 <section class="stats"><article><span>Toplam Kayıt</span><strong><?=(int)($counts['total']??0)?></strong></article><article><span>Depodaki Eşyalar</span><strong><?=(int)($counts['storage']??0)?></strong></article><article><span>Eşleşme Bekleyen</span><strong><?=(int)($counts['waiting']??0)?></strong></article><article><span>Teslim Edilen</span><strong><?=(int)($counts['delivered']??0)?></strong></article></section>
-<section class="panel"><form class="filters"><input name="q" value="<?=e($q)?>" placeholder="Ara (ör. 23.07.2026 veya 07.2026; Lobby)" title="Bulunma tarihi için gg.aa.yyyy, ay bazlı arama için aa.yyyy yazabilirsiniz. Birden fazla terimi noktalı virgülle ayırın."><select name="status" onchange="this.form.submit()"><option value="">Tüm Durumlar</option><?php foreach($statuses as $s):?><option <?=($status===$s)?'selected':''?>><?=e($s)?></option><?php endforeach?></select><select name="department" aria-label="Bulan departman" onchange="this.form.submit()"><?php foreach($departments as $departmentName):?><option value="<?=e($departmentName)?>" <?=($department===$departmentName)?'selected':''?>><?=e($departmentName)?></option><?php endforeach?></select><button class="search-icon-button" type="submit" title="Ara" aria-label="Ara"><img src="<?=url('assets/search-icon.svg')?>" alt=""></button></form>
+<section class="panel"><form class="filters"><?php if($deliveries):?><input type="hidden" name="view" value="deliveries"><?php endif?><input name="q" value="<?=e($q)?>" placeholder="Ara (ör. 23.07.2026 veya 07.2026; Lobby)" title="Bulunma tarihi için gg.aa.yyyy, ay bazlı arama için aa.yyyy yazabilirsiniz. Birden fazla terimi noktalı virgülle ayırın."><select name="status" onchange="this.form.submit()"><option value="">Tüm Durumlar</option><?php foreach($statuses as $s):?><option <?=($status===$s)?'selected':''?>><?=e($s)?></option><?php endforeach?></select><select name="department" aria-label="Bulan departman" onchange="this.form.submit()"><?php foreach($departments as $departmentName):?><option value="<?=e($departmentName)?>" <?=($department===$departmentName)?'selected':''?>><?=e($departmentName)?></option><?php endforeach?></select><button class="search-icon-button" type="submit" title="Ara" aria-label="Ara"><img src="<?=url('assets/search-icon.svg')?>" alt=""></button></form>
 <div class="table-wrap found-items-table"><table><thead><tr><th></th><th>Eşya<br>No</th><th>Seri No</th><th>Bulunma<br>Tarihi</th><th>Bulunduğu<br>Yer</th><th>Kategori</th><th>Eşya İsmi</th><th>Marka</th><th>Renk</th><th>Bulan</th><th>Kaydeden</th><th>Görseller</th><th>Miktar</th><th>Depo</th><th>Eşya<br>Statüsü</th><th>Saklama<br>Süresi</th><th>İlgili Eşleşmeler<br>/ Talepler</th><th>Teslimat<br>Tarihi</th><th>İletişim<br>Durumu</th><th>Eylemler</th></tr></thead><tbody>
 <?php foreach($items as $item):
   $foundDate = new DateTimeImmutable((string)$item['found_at'], new DateTimeZone('Europe/Istanbul'));
