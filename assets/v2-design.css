@@ -251,4 +251,19 @@ body table th .v2-sort-heading{display:flex!important;align-items:center;gap:7px
  }
  body.admin-page .admin-entry-actions button.save-button:hover,
  body.admin-page .admin-entry-actions button.save-icon-button:hover {background:#105c4c!important;border-color:#105c4c!important;}
+}/* Readable record history in four balanced columns. */
+@media screen {
+ body .record-meta-field {display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:16px 24px!important;align-items:start!important;min-height:0!important;padding:16px 18px!important;background:#edf5f0!important;border:1px solid #dbe8df!important;border-radius:10px!important;}
+ body .record-meta-field>div {text-align:left!important;min-width:0!important;}
+ body .record-meta-field>div:nth-child(1){order:1;}
+ body .record-meta-field>div:nth-child(3){order:2;}
+ body .record-meta-field>div:nth-child(2){order:3;}
+ body .record-meta-field>div:nth-child(4){order:4;}
+ body .record-meta-field span {color:#657c6f!important;font-size:12px!important;font-weight:500!important;}
+ body .record-meta-field strong {color:#244b39!important;font-size:13px!important;font-weight:600!important;margin-top:5px!important;overflow-wrap:anywhere;}
+ :root[data-theme=dark] body .record-meta-field{background:#243b30!important;border-color:#40594a!important;}
+ :root[data-theme=dark] body .record-meta-field span{color:#adc7b7!important;}
+ :root[data-theme=dark] body .record-meta-field strong{color:#e0ebe4!important;}
+ @media(max-width:900px){body .record-meta-field{grid-template-columns:repeat(2,minmax(0,1fr))!important;}}
+ @media(max-width:480px){body .record-meta-field{grid-template-columns:1fr!important;}}
 }
