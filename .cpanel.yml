@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=$HOME/public_html/lf/
+    - export DEPLOYPATH=$HOME/public_html/lf2/
     - /bin/mkdir -p $DEPLOYPATH
     - /bin/cp -R assets $DEPLOYPATH
-    - /bin/cp .htaccess admin.php user-edit.php index.php item-new.php item-edit.php item-delete.php item-images.php item-label.php login.php logout.php profile.php transfer.php transfer-print.php transfer-schema.php $DEPLOYPATH
+    - /bin/cp .htaccess admin.php location-settings.php user-edit.php index.php item-new.php item-edit.php item-delete.php item-images.php item-label.php login.php logout.php profile.php transfer.php transfer-print.php transfer-schema.php $DEPLOYPATH
